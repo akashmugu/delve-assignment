@@ -19,9 +19,7 @@ interface AuthConfig {
 }
 
 export async function getOriginUrl(): Promise<string> {
-  return process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 }
 
 export async function validateUser() {
