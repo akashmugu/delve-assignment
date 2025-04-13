@@ -54,7 +54,17 @@ export default async function ConnectSupabasePage({
   const searchParams = await searchParamsPromise;
 
   try {
-    // Get existing connections
+    // Clean up expired connections first
+    const { error: cleanupError } = await supabase
+      .from("user_supabase_connections")
+      .delete()
+      .lt("expires_at", new Date().toISOString());
+
+    if (cleanupError) {
+      throw new Error(`Failed to clean up expired connections`);
+    }
+
+    // Get existing connections (all remaining ones are unexpired)
     const { data: connections, error } = await supabase
       .from("user_supabase_connections")
       .select("*");
