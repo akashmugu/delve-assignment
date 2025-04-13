@@ -28,7 +28,7 @@ export type Project = {
 const errorSafe = async <T>(promise: any): Promise<T> => {
   const { data, error } = await promise;
   if (error) throw error;
-  if (!data) throw new Error("No data returned");
+  if (data == null) throw new Error("No data returned");
   return data;
 };
 const getAllProjects = async (access_token: string) => {
